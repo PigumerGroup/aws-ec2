@@ -7,6 +7,12 @@ Parameters:
     Type: String
   KeyName:
     Type: String
+  RpmBucket:
+    Type: String
+  RpmKey:
+    Type: String
+  RpmName:
+    Type: String
 Resources:
   EC2Role:
     Type: AWS::IAM::Role
@@ -25,6 +31,7 @@ Resources:
           Statement:
           - Effect: Allow
             Action:
+            - 's3:*'
             - 'logs:CreateLogStream'
             - 'logs:PutLogEvents'
             Resource: '*'
@@ -49,6 +56,8 @@ Resources:
             yum update -y
             yum remove  -y java-1.7.0-openjdk
             yum install -y java-1.8.0-openjdk
+            aws s3api get-object --bucket ${RpmBucket} --key ${RpmKey} ${RpmName}
+            yum install -y ${RpmName}
             yum install -y aws-cfn-bootstrap
             /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --region ${AWS::Region}
   EC2AutoScalingGroup:
