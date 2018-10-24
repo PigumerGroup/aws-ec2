@@ -13,7 +13,7 @@ lazy val root = (project in file("."))
     version := "0.1.0-SNAPSHOT",
     scalaVersion := "2.12.6"
   )
-  .enablePlugins(JavaServerAppPackaging, SystemVPlugin, RpmPlugin)
+  .enablePlugins(JavaServerAppPackaging, UpstartPlugin, RpmPlugin)
   .settings(
     rpmVendor := "pigumergroup",
     rpmLicense := Some("MIT")
